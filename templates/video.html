@@ -3,11 +3,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Test</title>
+  <title>We out here</title>
 </head> 
 <body>
-  <video controls>
-    <source src="{{src}}">
+  <video controls src="{{src}}">
+    {% if subtitle_src %}
+    <track default kind="captions" srclang="en" src="{{subtitle_src}}" />
+    {% endif %}
+    not supported!
   </video>
   
 </body>

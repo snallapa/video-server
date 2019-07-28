@@ -9,7 +9,11 @@ if not content_dir.endswith("/"):
 
 
 @app.route('/video/<path:path>')
-def file(path):
+def video(path):
+    return send_from_directory(content_dir, path)
+
+@app.route('/text/<path:path>')
+def text(path):
     return send_from_directory(content_dir, path)
 
 @app.route("/", defaults={'path': ""})
@@ -26,6 +30,10 @@ def home(path):
             path = "/" + path
         return render_template("files.html", files=files, length=len(files), path=path)
     else:
+        subtitles = path[0 : path.rfind(".")] + ".vtt"
+        print(subtitles)
+        if (os.path.exists(content_dir + subtitles)):
+            return render_template('video.html', src="/video/" + path, subtitle_src="/text/" + subtitles)
         return render_template('video.html', src="/video/" + path)
 
 if __name__ == '__main__':
