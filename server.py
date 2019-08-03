@@ -4,6 +4,8 @@ import os
 app = Flask(__name__)
 
 content_dir = os.environ.get("CONTENT")
+if not content_dir:
+    raise Exception("Content dir environment variable not found")
 if not content_dir.endswith("/"):
     content_dir = content_dir + "/"
 
@@ -19,8 +21,6 @@ def text(path):
 @app.route("/", defaults={'path': ""})
 @app.route('/<path:path>')
 def home(path):
-    if not content_dir:
-        raise Exception("Content dir environment variable not found")
     resultPath = content_dir + path
     if os.path.isdir(resultPath):
         files = os.listdir(content_dir + path)
